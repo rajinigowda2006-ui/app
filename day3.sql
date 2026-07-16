@@ -8,9 +8,8 @@ CREATE TABLE products (
 );
 
 INSERT INTO products (id,name, price) VALUES
-(1,'Laptop', 150),
-(2,'Mouse', 100),
-(3,'USB cable', 50)
-(4,'HP', 180)
-
-;
+(6,'Laptop', 150),
+(7,'Mouse', 100),
+(8,'USB cable', 50),
+(9,'HP', 180),
+(10,'dell',130);

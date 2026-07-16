@@ -1,54 +1,408 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
- <title>My Products</title>
+
+<title>Product Management System</title>
+
 <style>
-	body{
-		font-family:sans-serif;
-		background-color:white;
-	}
-	h1{	color:blue;
-		text-align:center;}
-	table{
-		background-color:white;
-		margin:20px auto;
-		width:40%;
-		border-collapse:collapse;
-		text-align:center;
-	}
-	th{
-		background-color:yellow;
 
-		color:brown;
-		
-	}
-	th,td{
-		border:1px solid black;
-		padding:6px;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
 
-		text-align:center;}
-	tr:hover td{
-		background-color:pink;
-	}
-	tr:nth-child(even) td{ color:skyblue}
+
+body{
+
+    background:#f4f7fb;
+
+    min-height:100vh;
+
+}
+
+
+
+.header{
+
+    background:#1f2937;
+
+    color:white;
+
+    padding:25px;
+
+    text-align:center;
+
+}
+
+
+.header h1{
+
+    font-size:32px;
+
+}
+
+
+
+.container{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:40px auto;
+
+}
+
+
+
+/* Add product card */
+
+.card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+.card h2{
+
+    margin-bottom:20px;
+
+    color:#1f2937;
+
+}
+
+
+
+
+.form-group{
+
+    display:flex;
+
+    gap:15px;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+input{
+
+    width:250px;
+
+    padding:14px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+}
+
+
+
+input:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+}
+
+
+
+
+button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 35px;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+/* Table section */
+
+
+.table-card{
+
+    margin-top:35px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+
+
+th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px;
+
+    text-align:center;
+
+}
+
+
+
+td{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+
+
+tr:hover{
+
+    background:#f1f5f9;
+
+}
+
+
+
+.empty{
+
+    padding:20px;
+
+    color:gray;
+
+}
+
+
+
+.footer{
+
+    text-align:center;
+
+    margin-top:40px;
+
+    color:#6b7280;
+
+}
+
+
+
 </style>
+
+
 </head>
+
+
 <body>
-	<h1>Products</h1>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-    </tr>
-	 {% for p in products %}
-    <tr>
-        <td>{{ p.id }}</td>
-        <td>{{ p.name }}</td>
-        <td>{{ p.price }}</td>
-    </tr>
-    {% endfor %}
+
+
+
+<div class="header">
+
+<h1>Product Management System</h1>
+
+<p>Flask + MySQL Full Stack Application</p>
+
+</div>
+
+
+
+
+<div class="container">
+
+
+
+<div class="card">
+
+
+<h2>Add New Product</h2>
+
+
+<form action="/add_product" method="POST">
+
+
+<div class="form-group">
+
+
+<input 
+type="text"
+name="name"
+placeholder="Enter Product Name"
+required>
+
+
+<input 
+type="number"
+name="price"
+placeholder="Enter Price"
+required>
+
+
+<input 
+type="number"
+name="quantity"
+placeholder="Enter Quantity"
+required>
+
+
+
+<button type="submit">
+Add Product
+</button>
+
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+
+<div class="table-card">
+
+
+<h2>Product Details</h2>
+
+
+
+<table>
+
+
+<tr>
+
+<th>ID</th>
+
+<th>Product Name</th>
+
+<th>Price</th>
+
+<th>Quantity</th>
+
+</tr>
+
+
+
+{% if products %}
+
+
+{% for product in products %}
+
+
+<tr>
+
+<td>{{product.id}}</td>
+
+<td>{{product.name}}</td>
+
+<td>₹ {{product.price}}</td>
+
+<td>{{product.quantity}}</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+
+{% else %}
+
+
+<tr>
+
+<td colspan="4" class="empty">
+
+No products available
+
+</td>
+
+</tr>
+
+
+{% endif %}
+
+
 
 </table>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="footer">
+
+<p>© 2026 Product Management System</p>
+
+</div>
+
+
+
 </body>
+
+
 </html>

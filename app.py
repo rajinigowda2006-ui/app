@@ -1,34 +1,74 @@
+from flask import Flask, render_template, request
 import mysql.connector
-from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Function to get data from MySQL
-def get_products():
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='2006',
-        database='mydb'
+
+def get_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="2006",
+        database="mydb"
     )
 
-    cur = conn.cursor(dictionary=True)
 
-    cur.execute("SELECT id, name, price FROM products")
+# Show products
+@app.route("/")
+def home():
 
-    rows = cur.fetchall()
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
 
-    cur.close()
+    cursor.execute("SELECT * FROM productss")
+
+    products = cursor.fetchall()
+
+    cursor.close()
     conn.close()
 
-    return rows
+    return render_template(
+        "index.html",
+        products=products
+    )
 
-# Route
-@app.route('/')
-def home():
-    data = get_products()
-    return render_template('index.html', products=data)
 
-# Run server
-if __name__ == '__main__':
+# Add product
+@app.route("/add_product", methods=["POST"])
+def add_product():
+
+    name = request.form["name"]
+    price = request.form["price"]
+    quantity = request.form["quantity"]
+
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+
+    sql = """
+    INSERT INTO productss(name, price, quantity)
+    VALUES(%s,%s,%s)
+    """
+
+
+    cursor.execute(
+        sql,
+        (name, price, quantity)
+    )
+
+
+    conn.commit()
+
+
+    cursor.close()
+    conn.close()
+
+
+    # After inserting, reload the page
+    return home()
+
+
+
+if __name__ == "__main__":
     app.run(debug=True)
